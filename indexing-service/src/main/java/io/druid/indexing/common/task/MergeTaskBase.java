@@ -46,6 +46,7 @@ import io.druid.indexing.common.actions.TaskActionClient;
 import io.druid.segment.IndexIO;
 import io.druid.timeline.DataSegment;
 import io.druid.timeline.partition.NoneShardSpec;
+import io.druid.timeline.partition.NumberedShardSpec;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -320,8 +321,9 @@ public abstract class MergeTaskBase extends AbstractFixedIntervalTask
                       .interval(mergedInterval)
                       .version(version)
                       .binaryVersion(IndexIO.CURRENT_VERSION_ID)
-                      .shardSpec(new NoneShardSpec())
-                      .dimensions(Lists.newArrayList(mergedDimensions))
+//                      .shardSpec(new NoneShardSpec())
+                    .shardSpec(new NumberedShardSpec(0, 0))
+                    .dimensions(Lists.newArrayList(mergedDimensions))
                       .metrics(Lists.newArrayList(mergedMetrics))
                       .build();
   }

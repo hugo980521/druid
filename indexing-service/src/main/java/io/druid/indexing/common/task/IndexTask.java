@@ -62,6 +62,7 @@ import io.druid.segment.realtime.plumber.Plumber;
 import io.druid.timeline.DataSegment;
 import io.druid.timeline.partition.HashBasedNumberedShardSpec;
 import io.druid.timeline.partition.NoneShardSpec;
+import io.druid.timeline.partition.NumberedShardSpec;
 import io.druid.timeline.partition.ShardSpec;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -214,7 +215,8 @@ public class IndexTask extends AbstractFixedIntervalTask
             shardSpecs.add(new HashBasedNumberedShardSpec(i, numShards, null, jsonMapper));
           }
         } else {
-          shardSpecs = ImmutableList.<ShardSpec>of(new NoneShardSpec());
+//          shardSpecs = ImmutableList.<ShardSpec>of(new NoneShardSpec());
+            shardSpecs = ImmutableList.<ShardSpec>of(new NumberedShardSpec(0, 0));
         }
       }
       for (final ShardSpec shardSpec : shardSpecs) {

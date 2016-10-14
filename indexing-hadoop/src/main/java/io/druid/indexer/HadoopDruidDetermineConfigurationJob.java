@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.metamx.common.logger.Logger;
 import io.druid.timeline.partition.HashBasedNumberedShardSpec;
 import io.druid.timeline.partition.NoneShardSpec;
+import io.druid.timeline.partition.NumberedShardSpec;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.Interval;
@@ -80,7 +81,8 @@ public class HadoopDruidDetermineConfigurationJob implements Jobby
           shardSpecs.put(bucket, specs);
           log.info("DateTime[%s], spec[%s]", bucket, specs);
         } else {
-          final HadoopyShardSpec spec = new HadoopyShardSpec(new NoneShardSpec(), shardCount++);
+//          final HadoopyShardSpec spec = new HadoopyShardSpec(new NoneShardSpec(), shardCount++);
+          final HadoopyShardSpec spec = new HadoopyShardSpec(new NumberedShardSpec(0, 0), shardCount++);
           shardSpecs.put(bucket, Lists.newArrayList(spec));
           log.info("DateTime[%s], spec[%s]", bucket, spec);
         }

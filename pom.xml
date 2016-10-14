@@ -65,7 +65,7 @@
         <jackson.version>2.4.6</jackson.version>
         <log4j.version>2.5</log4j.version>
         <slf4j.version>1.7.12</slf4j.version>
-        <hadoop.compile.version>2.3.0</hadoop.compile.version>
+        <hadoop.compile.version>2.6.0-cdh5.5.2</hadoop.compile.version>
     </properties>
 
     <modules>

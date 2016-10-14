@@ -37,6 +37,7 @@ import io.druid.query.aggregation.hyperloglog.HyperLogLogCollector;
 import io.druid.segment.indexing.granularity.UniformGranularitySpec;
 import io.druid.timeline.partition.HashBasedNumberedShardSpec;
 import io.druid.timeline.partition.NoneShardSpec;
+import io.druid.timeline.partition.NumberedShardSpec;
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -171,7 +172,8 @@ public class DetermineHashedPartitionsJob implements Jobby
 
           List<HadoopyShardSpec> actualSpecs = Lists.newArrayListWithExpectedSize(numberOfShards);
           if (numberOfShards == 1) {
-            actualSpecs.add(new HadoopyShardSpec(new NoneShardSpec(), shardCount++));
+//            actualSpecs.add(new HadoopyShardSpec(new NoneShardSpec(), shardCount++));
+            actualSpecs.add(new HadoopyShardSpec(new NumberedShardSpec(0, 0), shardCount++));
           } else {
             for (int i = 0; i < numberOfShards; ++i) {
               actualSpecs.add(

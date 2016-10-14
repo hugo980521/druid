@@ -1215,7 +1215,9 @@ public class KafkaSupervisor implements Supervisor
   private DateTime getTaskStartTime(final String id)
   {
     if (!taskInfoProvider.getTaskLocation(id).equals(TaskLocation.unknown())) {
-      DateTime startTime = taskClient.getStartTime(id, false);
+      //  Kafka supervisor kills unresponsive tasks too quickly  refer to  [https://github.com/druid-io/druid/issues/3276]
+      // DateTime startTime = taskClient.getStartTime(id, false);
+      DateTime startTime = taskClient.getStartTime(id, true);
       log.debug("Received start time of [%s] from task [%s]", startTime, id);
       return startTime;
     }
