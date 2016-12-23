@@ -685,9 +685,10 @@ public class DruidCoordinator
             return;
           }
         }
-
-        try (BalancerStrategyFactory factory =
-                 new CostBalancerStrategyFactory(getDynamicConfigs().getBalancerComputeThreads())) {
+        // 2016-12-07 comment  by lcm start
+        // try (BalancerStrategyFactory factory =
+              //   new CostBalancerStrategyFactory(getDynamicConfigs().getBalancerComputeThreads())) {
+        try (BalancerStrategyFactory factory =new RandomBalancerStrategyFactory()){
           // Do coordinator stuff.
           DruidCoordinatorRuntimeParams params =
               DruidCoordinatorRuntimeParams.newBuilder()

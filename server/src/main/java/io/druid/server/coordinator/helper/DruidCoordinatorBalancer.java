@@ -119,7 +119,9 @@ public class DruidCoordinatorBalancer implements DruidCoordinatorHelper
         log.info("No segments found.  Cannot balance.");
         continue;
       }
-
+      // 2016-12-07 add by lcm start
+      long unmoved = 0L;
+      // 2016-12-07 add by lcm end
       for (int iter = 0; iter < maxSegmentsToMove; iter++) {
         final BalancerSegmentHolder segmentToMove = strategy.pickSegmentToMove(serverHolderList);
 
@@ -129,17 +131,37 @@ public class DruidCoordinatorBalancer implements DruidCoordinatorHelper
           if (holder != null) {
             moveSegment(segmentToMove, holder.getServer(), params);
           }
+          // 2016-12-07 add by lcm start
+          else {
+            ++unmoved;
+          }
+          // 2016-12-07 add by lcm end
         }
+      }
+      if (unmoved == maxSegmentsToMove) {
+        // Cluster should be alive and constantly adjusting
+        log.info("No good moves found in tier [%s]", tier);
       }
       stats.addToTieredStat("movedCount", tier, currentlyMovingSegments.get(tier).size());
       if (params.getCoordinatorDynamicConfig().emitBalancingStats()) {
         strategy.emitStats(tier, stats, serverHolderList);
 
       }
-      log.info(
-          "[%s]: Segments Moved: [%d]", tier, currentlyMovingSegments.get(tier).size()
-      );
 
+      // 2016-12-07 comment  by lcm start
+//      log.info(
+//          "[%s]: Segments Moved: [%d]", tier, currentlyMovingSegments.get(tier).size()
+//      );
+      // 2016-12-07 comment  by lcm end
+
+      // 2016-12-07 add  by lcm start
+      log.info(
+              "[%s]: Segments Moved: [%d] Segments Let Alone: [%d]",
+              tier,
+              currentlyMovingSegments.get(tier).size(),
+              unmoved
+      );
+      // 2016-12-07 add  by lcm start
     }
 
     return params.buildFromExisting()
